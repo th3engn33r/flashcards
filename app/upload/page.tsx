@@ -1,10 +1,15 @@
 import * as React from 'react';
 import Link from 'next/link';
 import Upload from '../(components)/upload';
+import { cookies } from 'next/headers';
 
-const loggedin = true;
+async function UploadPage() {
+  const cookieStore = await cookies();
+  const userCookie = cookieStore.get('userId');
+  const loggedin: boolean = userCookie
+    ? (userCookie.value as unknown as boolean)
+    : false;
 
-const UploadPage = () => {
   return (
     <div className='flex flex-col min-h-[60vh] justify-center items-center'>
       {loggedin && (
@@ -25,6 +30,6 @@ const UploadPage = () => {
       )}
     </div>
   );
-};
+}
 
 export default UploadPage;
