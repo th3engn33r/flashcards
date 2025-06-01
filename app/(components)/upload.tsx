@@ -1,15 +1,18 @@
 'use client';
-import { redirect } from 'next/navigation';
+import { redirect, usePathname } from 'next/navigation';
 import React, { ChangeEvent, useState } from 'react';
 
 const Upload = () => {
   const [file, setFile] = useState<File | null>(null);
   const handleUpload = (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.files) {
-      console.log(e.target.files[0]);
       setFile(e.target.files[0]);
     }
   };
+
+  const path = usePathname();
+  const redirectedPath: string = path === '/upload' ? '/upload/api' : '/upload';
+
   return (
     <>
       <div className='flex bg-gray-400 rounded-2xl border-4 border-gray-700 text-white text-center items-center justify-center h-[50vh]'>
@@ -28,16 +31,14 @@ const Upload = () => {
             <p className='mb-8'>File selected: {file.name}</p>
             <button
               className='bg-blue-700 mx-2 w-30 h-10 rounded-2xl'
-              onClick={() => redirect('/upload')}
+              onClick={() => redirect(redirectedPath)}
             >
-              {' '}
               Upload
             </button>
             <button
               className='bg-blue-700 mx-2 w-30 h-10 rounded-2xl'
               onClick={() => setFile(null)}
             >
-              {' '}
               Clear
             </button>
           </div>
